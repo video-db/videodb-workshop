@@ -63,7 +63,7 @@ These notebooks showcase a few of the powerful applications you can build with V
 
 #### **Multi-Camera Setup**
 
-    VideoDB's multi-camera support unlocks advanced video intelligence by synchronizing and analyzing multiple feeds in real time. This enables richer context, multi-angle event detection, and comprehensive scene understanding—crucial for applications in public safety, sports analytics, and smart environments. With seamless multi-cam integration, you can build solutions that go beyond single-view limitations, delivering actionable insights and next-level automation.
+VideoDB's multi-camera support unlocks advanced video intelligence by synchronizing and analyzing multiple feeds in real time. This enables richer context, multi-angle event detection, and comprehensive scene understanding—crucial for applications in public safety, sports analytics, and smart environments. With seamless multi-cam integration, you can build solutions that go beyond single-view limitations, delivering actionable insights and next-level automation.
 
 * **Multi-Camera Public Surveillance**: Experience advanced urban monitoring with a 7-camera surveillance network using the WILDTRACK dataset. Learn how to deploy AI-powered analysis across multiple synchronized video feeds to detect incidents in real-time and provide multi-angle evidence for public safety applications.
 
