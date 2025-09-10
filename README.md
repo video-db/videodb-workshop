@@ -214,4 +214,4 @@ graph TD
 
 ### ✨ What's Next?
 
-Our mission is to make video as programmable as text. Join our community on [Discord](https://discord.gg/6evw64BP) to share your ideas, get help, and connect with other builders.
+Our mission is to make video as programmable as text. Join our community on [Discord](https://discord.com/invite/py9P639jGz) to share your ideas, get help, and connect with other builders.
