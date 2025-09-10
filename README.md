@@ -61,7 +61,7 @@ These notebooks showcase a few of the powerful applications you can build with V
 
     [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/video-db/videodb-workshop/blob/main/rtstream/Road_Monitoring.ipynb)
 
-    #### **Multi-Camera Setup**
+#### **Multi-Camera Setup**
 
     VideoDB's multi-camera support unlocks advanced video intelligence by synchronizing and analyzing multiple feeds in real time. This enables richer context, multi-angle event detection, and comprehensive scene understanding—crucial for applications in public safety, sports analytics, and smart environments. With seamless multi-cam integration, you can build solutions that go beyond single-view limitations, delivering actionable insights and next-level automation.
 
