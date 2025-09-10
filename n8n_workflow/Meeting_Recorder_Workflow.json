@@ -1,0 +1,1772 @@
+{
+  "name": "Copy: Meeting Recorder Master Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "indexSpokenWords",
+        "video_id": "={{ $json.data.video_id }}",
+        "force": true
+      },
+      "type": "CUSTOM.videoDb",
+      "typeVersion": 1,
+      "position": [
+        352,
+        -16
+      ],
+      "id": "f3f837d0-5ca6-4574-a4e4-3c6d8b575094",
+      "name": "VideoDB Spoken Indexing",
+      "credentials": {
+        "videoDBApi": {
+          "id": "d2soIQH4rgVQUdD2",
+          "name": "Nischay Dev"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getTranscript",
+        "video_id": "={{ $('VideoDB Get Meeting').item.json.data.video_id }}",
+        "start": "=0",
+        "end": "=0",
+        "force": true
+      },
+      "type": "CUSTOM.videoDb",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        -16
+      ],
+      "id": "16a59174-b8bd-436e-80db-5e7ea932f24c",
+      "name": "VideoDB Transcript",
+      "credentials": {
+        "videoDBApi": {
+          "id": "d2soIQH4rgVQUdD2",
+          "name": "Nischay Dev"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Meeting Recorder",
+        "formDescription": "Master Workflow to record all your meetings and take corresponding actions.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Meeting URL",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Meeting Type",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sync"
+                  },
+                  {
+                    "option": "Planning"
+                  },
+                  {
+                    "option": "Interview"
+                  },
+                  {
+                    "option": "Sales"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -768,
+        -16
+      ],
+      "id": "444a4023-b44e-47b5-8c30-c3ebec421478",
+      "name": "Form",
+      "webhookId": "aed43ac6-7768-4f66-9220-4d2652b8401c"
+    },
+    {
+      "parameters": {
+        "operation": "recordMeeting",
+        "collection_id": "default",
+        "meeting_url": "={{ $json['Meeting URL'] }}",
+        "bot_name": "VideoDB Meeting Recorder",
+        "meeting_title": "={{ $json['Meeting Type'] }}"
+      },
+      "type": "CUSTOM.videoDb",
+      "typeVersion": 1,
+      "position": [
+        -544,
+        -16
+      ],
+      "id": "85988eeb-7ad1-4041-abb5-cf00897a18fe",
+      "name": "VideoDB Record Meeting",
+      "credentials": {
+        "videoDBApi": {
+          "id": "d2soIQH4rgVQUdD2",
+          "name": "Nischay Dev"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getMeeting",
+        "collection_id": "=default",
+        "meeting_id": "={{ $('VideoDB Record Meeting').item.json.data.meeting_id }}"
+      },
+      "type": "CUSTOM.videoDb",
+      "typeVersion": 1,
+      "position": [
+        -96,
+        -96
+      ],
+      "id": "40993476-64a4-465b-a15b-e59561005ec9",
+      "name": "VideoDB Get Meeting",
+      "credentials": {
+        "videoDBApi": {
+          "id": "d2soIQH4rgVQUdD2",
+          "name": "Nischay Dev"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -320,
+        -16
+      ],
+      "id": "756b6620-827f-44b9-b0b6-85ebf1e3842c",
+      "name": "Wait For Meeting",
+      "webhookId": "2923bf8e-5a7e-4f05-a669-46f250debe9e"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3b6fc6ca-f4c2-462d-869e-6b540faffe54",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "done",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        128,
+        -16
+      ],
+      "id": "b6e58c4d-c53a-48fd-9ffd-490c5cf8b701",
+      "name": "If Meeting"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        576,
+        -16
+      ],
+      "id": "f8dffc23-2eb9-47d4-9870-055aa0e37ed6",
+      "name": "Wait For Indexing",
+      "webhookId": "54ef1fee-5c18-4a20-887e-cb14c0ffb567"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('VideoDB Spoken Indexing').item.json.data.output_url }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "videoDBApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        800,
+        -96
+      ],
+      "id": "9a6a705f-a994-4cf5-91d5-88971e3a5de4",
+      "name": "HTTP Request Indexing",
+      "credentials": {
+        "videoDBApi": {
+          "id": "d2soIQH4rgVQUdD2",
+          "name": "Nischay Dev"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3b6fc6ca-f4c2-462d-869e-6b540faffe54",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "done",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        -16
+      ],
+      "id": "eea5a9a2-a368-4651-a881-b0518d706ac2",
+      "name": "If Indexing"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get webhook data and transcript data\nconst meetingData = $('VideoDB Get Meeting').first().json.data;\nconst transcriptData = $('VideoDB Transcript').first().json.data;\n\n/**\n * Groups consecutive words by the same speaker into segments.\n * Handles silence markers and creates coherent conversation segments.\n */\nfunction groupWordsIntoSegments(wordData) {\n    if (!wordData || wordData.length === 0) {\n        return [];\n    }\n    \n    const segments = [];\n    let currentSegment = null;\n    \n    for (const word of wordData) {\n        // Skip silence markers and entries without speaker info\n        if (!word.speaker || word.speaker === \"-\" || !word.text || word.text === \"-\") {\n            continue;\n        }\n        \n        // Start new segment if speaker changes or this is the first word\n        if (!currentSegment || currentSegment.speakerLabel !== word.speaker) {\n            // Save previous segment if exists\n            if (currentSegment) {\n                segments.push({\n                    speakerLabel: currentSegment.speakerLabel,\n                    start: currentSegment.start,\n                    end: currentSegment.end,\n                    text: currentSegment.words.join(\" \").trim()\n                });\n            }\n            \n            // Start new segment\n            currentSegment = {\n                speakerLabel: word.speaker,\n                start: word.start,\n                end: word.end,\n                words: [word.text]\n            };\n        } else {\n            // Continue current segment\n            currentSegment.words.push(word.text);\n            currentSegment.end = word.end;\n        }\n    }\n    \n    // Don't forget the last segment\n    if (currentSegment) {\n        segments.push({\n            speakerLabel: currentSegment.speakerLabel,\n            start: currentSegment.start,\n            end: currentSegment.end,\n            text: currentSegment.words.join(\" \").trim()\n        });\n    }\n    \n    return segments;\n}\n\n/**\n * Creates a mapping from speaker labels (A, B, etc.) to actual names\n * using a scoring system based on temporal proximity and pattern matching.\n */\nfunction createSpeakerMapping(segments, speakerTimeline) {\n    // Get unique speaker labels from transcript\n    const uniqueLabels = [...new Set(segments.map(s => s.speakerLabel))];\n    \n    // Get unique speaker names from timeline (excluding Unknown)\n    const uniqueNames = [...new Set(\n        speakerTimeline\n            .filter(entry => entry.speaker_name && entry.speaker_name !== \"Unknown Speaker\")\n            .map(entry => entry.speaker_name)\n    )];\n    \n    // If we have a simple 1-to-1 or 2-to-2 mapping, use advanced scoring\n    if (uniqueLabels.length <= uniqueNames.length && uniqueNames.length <= 3) {\n        return createAdvancedMapping(segments, speakerTimeline, uniqueLabels, uniqueNames);\n    }\n    \n    // Fallback to simple proximity-based mapping\n    return createProximityMapping(segments, speakerTimeline, uniqueLabels);\n}\n\n/**\n * Advanced mapping using scoring based on multiple factors\n */\nfunction createAdvancedMapping(segments, timeline, labels, names) {\n    const mapping = {};\n    const scores = {};\n    \n    // Initialize scores\n    for (const label of labels) {\n        scores[label] = {};\n        for (const name of names) {\n            scores[label][name] = 0;\n        }\n    }\n    \n    // Score based on temporal proximity\n    for (const segment of segments) {\n        const segmentMidpoint = (segment.start + segment.end) / 2;\n        \n        for (const entry of timeline) {\n            if (entry.speaker_name === \"Unknown Speaker\") continue;\n            \n            const timeDiff = Math.abs(segmentMidpoint - entry.start_time_seconds);\n            \n            // Score inversely proportional to time difference\n            // Closer events get higher scores\n            const proximityScore = Math.max(0, 10 - timeDiff);\n            \n            // Bonus points for exact or very close matches\n            if (timeDiff < 0.5) {\n                scores[segment.speakerLabel][entry.speaker_name] += 20;\n            } else if (timeDiff < 2) {\n                scores[segment.speakerLabel][entry.speaker_name] += 10;\n            }\n            \n            scores[segment.speakerLabel][entry.speaker_name] += proximityScore;\n        }\n    }\n    \n    // Analyze conversation patterns\n    // If speakers alternate frequently, boost scores for alternating pattern\n    if (segments.length > 4) {\n        const alternationBonus = analyzeAlternationPattern(segments, timeline, names);\n        for (const label in alternationBonus) {\n            for (const name in alternationBonus[label]) {\n                scores[label][name] += alternationBonus[label][name];\n            }\n        }\n    }\n    \n    // Assign each label to the name with highest score\n    const usedNames = new Set();\n    \n    // Sort labels by their max score to assign high-confidence mappings first\n    const sortedLabels = labels.sort((a, b) => {\n        const maxA = Math.max(...Object.values(scores[a]));\n        const maxB = Math.max(...Object.values(scores[b]));\n        return maxB - maxA;\n    });\n    \n    for (const label of sortedLabels) {\n        let bestName = null;\n        let bestScore = -1;\n        \n        for (const name of names) {\n            if (!usedNames.has(name) && scores[label][name] > bestScore) {\n                bestScore = scores[label][name];\n                bestName = name;\n            }\n        }\n        \n        if (bestName) {\n            mapping[label] = bestName;\n            usedNames.add(bestName);\n        }\n    }\n    \n    // Fallback for any unmapped labels\n    for (const label of labels) {\n        if (!mapping[label]) {\n            // Assign to any unused name or first available name\n            const unusedName = names.find(n => !usedNames.has(n));\n            mapping[label] = unusedName || names[0];\n        }\n    }\n    \n    return mapping;\n}\n\n/**\n * Analyzes conversation alternation patterns to improve speaker identification\n */\nfunction analyzeAlternationPattern(segments, timeline, names) {\n    const bonus = {};\n    const labels = [...new Set(segments.map(s => s.speakerLabel))];\n    \n    // Initialize bonus structure\n    for (const label of labels) {\n        bonus[label] = {};\n        for (const name of names) {\n            bonus[label][name] = 0;\n        }\n    }\n    \n    // Look for alternating speaker patterns in timeline\n    for (let i = 0; i < timeline.length - 1; i++) {\n        const current = timeline[i];\n        const next = timeline[i + 1];\n        \n        if (current.speaker_name === \"Unknown Speaker\" || \n            next.speaker_name === \"Unknown Speaker\") continue;\n        \n        // Find segments that match this alternation timing\n        for (let j = 0; j < segments.length - 1; j++) {\n            const seg1 = segments[j];\n            const seg2 = segments[j + 1];\n            \n            // Check if segment timing aligns with timeline alternation\n            const timeDiff1 = Math.abs(seg1.start - current.start_time_seconds);\n            const timeDiff2 = Math.abs(seg2.start - next.start_time_seconds);\n            \n            if (timeDiff1 < 3 && timeDiff2 < 3 && seg1.speakerLabel !== seg2.speakerLabel) {\n                bonus[seg1.speakerLabel][current.speaker_name] += 5;\n                bonus[seg2.speakerLabel][next.speaker_name] += 5;\n            }\n        }\n    }\n    \n    return bonus;\n}\n\n/**\n * Simple proximity-based mapping for complex scenarios\n */\nfunction createProximityMapping(segments, timeline, labels) {\n    const mapping = {};\n    \n    for (const label of labels) {\n        const labelSegments = segments.filter(s => s.speakerLabel === label);\n        if (labelSegments.length === 0) continue;\n        \n        // Find the most common speaker name near this label's segments\n        const nameCounts = {};\n        \n        for (const segment of labelSegments) {\n            const nearestSpeaker = findNearestSpeaker(segment.start, timeline);\n            if (nearestSpeaker && nearestSpeaker !== \"Unknown Speaker\") {\n                nameCounts[nearestSpeaker] = (nameCounts[nearestSpeaker] || 0) + 1;\n            }\n        }\n        \n        // Assign the most frequent nearby speaker\n        let bestName = null;\n        let bestCount = 0;\n        for (const [name, count] of Object.entries(nameCounts)) {\n            if (count > bestCount) {\n                bestCount = count;\n                bestName = name;\n            }\n        }\n        \n        mapping[label] = bestName || \"Unknown Speaker\";\n    }\n    \n    return mapping;\n}\n\n/**\n * Finds the nearest speaker at or before the given timestamp\n */\nfunction findNearestSpeaker(timestamp, timeline) {\n    let nearestSpeaker = null;\n    let nearestTime = -Infinity;\n    \n    for (const entry of timeline) {\n        if (entry.start_time_seconds <= timestamp && \n            entry.start_time_seconds > nearestTime) {\n            nearestTime = entry.start_time_seconds;\n            nearestSpeaker = entry.speaker_name;\n        }\n    }\n    \n    // If no speaker found before timestamp, look for closest after\n    if (!nearestSpeaker) {\n        let minDiff = Infinity;\n        for (const entry of timeline) {\n            const diff = Math.abs(entry.start_time_seconds - timestamp);\n            if (diff < minDiff) {\n                minDiff = diff;\n                nearestSpeaker = entry.speaker_name;\n            }\n        }\n    }\n    \n    return nearestSpeaker;\n}\n\n/**\n * Applies the speaker mapping to segments and handles edge cases\n */\nfunction assignSpeakers(segments, speakerMapping) {\n    const finalTranscript = [];\n    let lastKnownSpeaker = null;\n    \n    for (const segment of segments) {\n        let assignedSpeaker = speakerMapping[segment.speakerLabel];\n        \n        // Handle unknown speakers\n        if (!assignedSpeaker || assignedSpeaker === \"Unknown Speaker\") {\n            // Try to use last known speaker if the gap is small\n            if (lastKnownSpeaker && segments.indexOf(segment) > 0) {\n                const prevSegment = segments[segments.indexOf(segment) - 1];\n                const gap = segment.start - prevSegment.end;\n                \n                // If gap is less than 2 seconds, likely the same speaker\n                if (gap < 2) {\n                    assignedSpeaker = lastKnownSpeaker;\n                }\n            }\n        }\n        \n        // Update last known speaker if we have a valid assignment\n        if (assignedSpeaker && assignedSpeaker !== \"Unknown Speaker\") {\n            lastKnownSpeaker = assignedSpeaker;\n        }\n        \n        finalTranscript.push({\n            speaker: assignedSpeaker || \"Unknown Speaker\",\n            text: segment.text\n        });\n    }\n    \n    return finalTranscript;\n}\n\n/**\n * Post-processing to merge consecutive segments from the same speaker\n */\nfunction mergeConsecutiveSegments(transcript) {\n    if (transcript.length === 0) return transcript;\n    \n    const merged = [];\n    let currentMerged = { ...transcript[0] };\n    \n    for (let i = 1; i < transcript.length; i++) {\n        const segment = transcript[i];\n        \n        // Check if same speaker and small time gap\n        if (segment.speaker === currentMerged.speaker && \n            segment.start - currentMerged.end < 1.0) {\n            // Merge segments\n            currentMerged.end = segment.end;\n            currentMerged.text += \" \" + segment.text;\n        } else {\n            // Save current and start new\n            merged.push(currentMerged);\n            currentMerged = { ...segment };\n        }\n    }\n    \n    // Don't forget the last segment\n    merged.push(currentMerged);\n    \n    return merged;\n}\n\n// Main processing pipeline\ntry {\n    // Extract the required data\n    const speakerTimeline = meetingData.speaker_timeline;\n    const wordData = transcriptData.word_timestamps;\n    \n    // Step 1: Group words into conversation segments\n    const segments = groupWordsIntoSegments(wordData);\n    \n    // Step 2: Create speaker label to name mapping\n    const speakerMapping = createSpeakerMapping(segments, speakerTimeline);\n    \n    // Step 3: Apply mapping to segments\n    const transcript = assignSpeakers(segments, speakerMapping);\n    \n    // Step 4: Merge consecutive segments from same speaker\n    const finalTranscript = mergeConsecutiveSegments(transcript);\n    \n    // Get the current date and time\n    const now = new Date();\n    const formattedDate = now.getFullYear() + '-' +\n        ('0' + (now.getMonth() + 1)).slice(-2) + '-' +\n        ('0' + now.getDate()).slice(-2);\n    \n    // Return the result\n    return [{\n        date: formattedDate,\n        transcript: finalTranscript\n    }];\n} catch (error) {\n    return [{\n        error: error.message,\n        date: new Date().toISOString(),\n        transcript: []\n    }];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1472,
+        -16
+      ],
+      "id": "b89a2220-2521-4c79-863b-f55387f8fa56",
+      "name": "Code Transcript"
+    },
+    {
+      "parameters": {
+        "content": "# Meeting Recorder Workflow\n\nThis workflow automates the process of recording, transcribing, indexing, and generating insights for your meetings using **VideoDB**. It also integrates with **Coda**, **Slack**, and **HubSpot** to automatically sync, share, and track meeting outcomes.\n\n## Prerequisites\n\nThis workflow requires you to set up API credentials for the services it connects to. Please ensure you have the following credentials ready:\n\n- **VideoDB API Key**: Obtain your API key from the VideoDB console.\n- **Coda API Token**: You will need an API token from your Coda workspace.\n- **Slack App Credentials**: The Slack branch requires you to create a Slack App and authorize it to access your workspace.\n- **HubSpot API Key**: The HubSpot branch requires an API key for your HubSpot account.\n\nFor detailed steps on how to generate these credentials within n8n, please refer to the official n8n documentation for each service.",
+        "height": 496,
+        "width": 752
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1584,
+        -176
+      ],
+      "typeVersion": 1,
+      "id": "162a550f-a6ca-44db-a7b2-4dd392ac5971",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Initiate Meeting Recording\nThis part of the workflow begins the meeting recording process by collecting essential information and initiating the recording via the VideoDB API.\n\n- The workflow starts with a **Form** that prompts for two key inputs: the **Meeting URL** and the **Meeting Type** (from a dropdown menu). These inputs are required to proceed.\n- The **VideoDB Record Meeting** node uses the provided URL to start a new meeting recording.",
+        "height": 288,
+        "width": 368
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -768,
+        -384
+      ],
+      "typeVersion": 1,
+      "id": "800620fc-57fc-49f9-acbd-57ad6f570436",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Wait and Get Meeting Data\nThis section of the workflow ensures the meeting recording is complete and then retrieves the final meeting data.\n\n- The workflow uses a **Wait For Meeting** node, which creates a pause to allow for the meeting to finish. An **If Meeting** node then checks the status of the recording.\n- The **VideoDB Get Meeting** node is used to retrieve the final meeting details, including the video and speaker timeline, once the recording is marked as \"done\".",
+        "height": 208,
+        "width": 592
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -336,
+        208
+      ],
+      "id": "2c4de81a-26d9-41e3-8389-10af274abc2f",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Indexing the Meeting Transcript\nThis part of the workflow initiates the spoken word indexing for the meeting and ensures the process is completed before moving on.\n\n- The **VideoDB Spoken Indexing** node starts the indexing of the recorded video to prepare it for transcription.\n- The **Wait For Indexing** node and **HTTP Request Indexing** node work together to continuously check the status of the indexing job, pausing the workflow until it is marked as \"done\".",
+        "height": 208,
+        "width": 704
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        352,
+        208
+      ],
+      "typeVersion": 1,
+      "id": "0ffa5296-b5ef-453a-988b-6f1fc6bef73b",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Form').item.json['Meeting Type'] }}",
+                    "rightValue": "Sync",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "a8a0f4c8-3a54-4602-bb12-5109fe9f5266"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sync"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "bc68d87c-e838-44c5-bf50-3fd05ef500d8",
+                    "leftValue": "={{ $('Form').item.json['Meeting Type'] }}",
+                    "rightValue": "Planning",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Planning"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b4112a9e-58b2-4655-af57-6bdf529477ac",
+                    "leftValue": "={{ $('Form').item.json['Meeting Type'] }}",
+                    "rightValue": "Interview",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Interview"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cfede8ca-0b2f-4d4a-98a9-210315611413",
+                    "leftValue": "={{ $('Form').item.json['Meeting Type'] }}",
+                    "rightValue": "Sales",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sales"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1696,
+        -48
+      ],
+      "id": "6c5fbec3-1fc3-4580-9f38-e3de1794bf10",
+      "name": "Switch Prompt"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6a7dc05d-fd0a-4ba6-ab64-956611b256f7",
+              "name": "=Prompt",
+              "value": "=You are given a transcript of a team planning meeting. Your task is to extract key information and return a valid JSON object with the following fields:  \nmeeting_title (string): A short, clear title summarizing the purpose or focus of the meeting.  \n\nmeeting_summary (string): A concise summary of the key discussion points from the meeting.  \n\nstrategic_outcomes (string): A single multiline string listing all the key decisions, next steps, and major milestones discussed. Format each outcome as a numbered item. \nEach item should include:  \nOutcome Description: A clear description of the decision or next step.  \nAssigned To: (if mentioned, else 'Team')  \nTimeline: (if mentioned, else 'Pending')  \n\n⚠️ Only return valid JSON. Do not add any extra text, headings, markdown, or commentary. ⚠️\n\nTranscript: {{ JSON.stringify($('Code Transcript').item.json.transcript) }}  ",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1920,
+        -112
+      ],
+      "id": "b3208d40-e62b-4db0-bf82-eeb2d83f170c",
+      "name": "Set Prompt Planning"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cbbb2947-39b5-4389-b53d-e285206b9994",
+              "name": "Prompt",
+              "value": "=You are given a transcript of an interview. Your task is to extract key information and return a valid JSON object with the following fields:\n\ncandidate_name (string): The candidate's name.\n\ncandidate_details (string): A short summary (max 150 chars) of the candidate's self-introduced details.\n\nrole_applying_for (string): The specific role the candidate is applying for, based on the conversation (max 150 chars).\n\npersonality_summary (string): A summary (max 150 chars) of the candidate's personality, communication style, and behavioral traits observed during the interview.\n\nrecommendation (string): The hiring recommendation, which must be one of the following values: \"Strongly Recommended\", \"Recommended\", \"Consider with Reservations\", \"Not Recommended\".\n\nkey_strengths (string): A multiline string containing a numbered list of key strengths. Each strength must be a concise sentence with a maximum of 150 characters.\n\nareas_for_development (string): A multiline string containing a numbered list of areas for development. Each area must be a concise sentence with a maximum of 150 characters.\n\ncultural_fit_assessment (string): The cultural fit assessment, which must be one of the following values: \"High\", \"Medium\", \"Low\".\n\nadditional_comments (string): Any additional comments or observations (max 150 chars).\n\n⚠️ Only return valid JSON. Do not add any extra text, headings, markdown, or commentary. ⚠️\n\nInterview Transcript: {{ JSON.stringify($('Code Transcript').item.json.transcript) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1920,
+        80
+      ],
+      "id": "c3d21391-159a-4dc3-a5cd-38b18609519e",
+      "name": "Set Prompt Interview"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "093304e1-b200-40f1-a7e6-1dcf51f36ae6",
+              "name": "Prompt",
+              "value": "=You are given a transcript of a sales call. Your task is to extract key information and return a valid JSON object with the following fields. All fields are mandatory.\n\ndeal_name (string): The company or individual's name for the deal.\n\ndeal_stage (string): The current stage of the deal. Possible values: 'appointmentscheduled', 'qualifiedtobuy', 'presentationscheduled', 'decisionmakerboughtin', 'contractsent', 'closedwon', 'closedlost'. Default to 'appointmentscheduled' if not clearly stated.\n\namount (string): The total monetary value of the deal as a number, encased as a string (e.g., '15000'). If not explicit, infer or state '0'.\n\ndescription (string): A concise summary of the meeting, highlighting key takeaways or next steps discussed (maximum 200 words).\n\n⚠️ Only return valid JSON. Do not add any extra text, headings, markdown, or commentary. ⚠️\n\nTranscript: {{ JSON.stringify($('Code Transcript').item.json.transcript) }}\n\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1920,
+        272
+      ],
+      "id": "233fd050-33e8-46b0-bae3-9d235bef995a",
+      "name": "Set Prompt Sales"
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2144,
+        -48
+      ],
+      "id": "5825f757-2f92-467a-81f8-e0b93f21c39e",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "generateText",
+        "collection_id": "default",
+        "prompt": "={{ $json.Prompt }}",
+        "model_name": "ultra",
+        "response_type": "json"
+      },
+      "type": "CUSTOM.videoDb",
+      "typeVersion": 1,
+      "position": [
+        2368,
+        -16
+      ],
+      "id": "baea6034-1f1f-4ad4-af06-718786d2b94b",
+      "name": "VideoDB Meeting Insights",
+      "credentials": {
+        "videoDBApi": {
+          "id": "d2soIQH4rgVQUdD2",
+          "name": "Nischay Dev"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3b6fc6ca-f4c2-462d-869e-6b540faffe54",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "complete",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3040,
+        -16
+      ],
+      "id": "b6545be3-8ba0-48fd-aa9c-0773a80f1557",
+      "name": "If Interview1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2592,
+        -16
+      ],
+      "id": "aeae2a6a-21db-4394-9931-2e02ef7b2e09",
+      "name": "Wait For Insights",
+      "webhookId": "1c2b70ce-b6fa-4064-b611-a084ba697ee0"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Form').item.json['Meeting Type'] }}",
+                    "rightValue": "Sync",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "a8a0f4c8-3a54-4602-bb12-5109fe9f5266"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sync"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "bc68d87c-e838-44c5-bf50-3fd05ef500d8",
+                    "leftValue": "={{ $('Form').item.json['Meeting Type'] }}",
+                    "rightValue": "Planning",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Planning"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b4112a9e-58b2-4655-af57-6bdf529477ac",
+                    "leftValue": "={{ $('Form').item.json['Meeting Type'] }}",
+                    "rightValue": "Interview",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Interview"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cfede8ca-0b2f-4d4a-98a9-210315611413",
+                    "leftValue": "={{ $('Form').item.json['Meeting Type'] }}",
+                    "rightValue": "Sales",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sales"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        3264,
+        -48
+      ],
+      "id": "1cce830a-5ec8-455c-ba82-ccbdc300d5dc",
+      "name": "Switch Branch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "155be9e1-81ae-41bd-9aea-29f266929889",
+              "name": "Date",
+              "value": "={{ $('Code Transcript').item.json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "e909ec06-e967-4dc2-b708-32581ee0595b",
+              "name": "Meeting Title",
+              "value": "={{ $json.response.data.output.meeting_title }}",
+              "type": "string"
+            },
+            {
+              "id": "571ab8d1-6686-478a-b450-ae6876c41569",
+              "name": "Meeting Summary",
+              "value": "={{ $json.response.data.output.meeting_summary }}",
+              "type": "string"
+            },
+            {
+              "id": "b8d0097d-8ccb-4266-839b-1a5392597139",
+              "name": "Action Points",
+              "value": "={{ $json.response.data.output.action_points }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3488,
+        -640
+      ],
+      "id": "ff5ad94b-9ba4-4d75-89db-e10691a3b556",
+      "name": "Edit Sync Fields"
+    },
+    {
+      "parameters": {
+        "docId": "SDiuK-CMzS",
+        "tableId": "grid-OTtGS2Up4N",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.coda",
+      "typeVersion": 1.1,
+      "position": [
+        3712,
+        -640
+      ],
+      "id": "dea2a636-bb58-484c-8cfb-ab93741f93d5",
+      "name": "Coda Sync Update",
+      "credentials": {
+        "codaApi": {
+          "id": "rmAIfKNtY8Nyolvx",
+          "name": "Nischay Coda Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C094D10KXEV",
+          "mode": "list",
+          "cachedResultName": "testing"
+        },
+        "text": "={{ $json.slackMessage }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        3712,
+        -448
+      ],
+      "id": "ceac5715-09b1-4b4d-92e9-311bdc098e62",
+      "name": "Slack Sync Update",
+      "webhookId": "c131f433-05a0-4473-b834-5e00cc224d1d",
+      "credentials": {
+        "slackApi": {
+          "id": "npUun0xlqA2cPf2o",
+          "name": "Nischay Slack Private"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "155be9e1-81ae-41bd-9aea-29f266929889",
+              "name": "Date",
+              "value": "={{ $('Code Transcript').item.json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "e909ec06-e967-4dc2-b708-32581ee0595b",
+              "name": "Meeting Title",
+              "value": "={{ $json.response.data.output.meeting_title }}",
+              "type": "string"
+            },
+            {
+              "id": "571ab8d1-6686-478a-b450-ae6876c41569",
+              "name": "Meeting Summary",
+              "value": "={{ $json.response.data.output.meeting_summary }}",
+              "type": "string"
+            },
+            {
+              "id": "b8d0097d-8ccb-4266-839b-1a5392597139",
+              "name": "Strategic Outcomes",
+              "value": "={{ $json.response.data.output.strategic_outcomes }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3488,
+        -240
+      ],
+      "id": "2e33238c-813a-41bf-9cbe-e32bd34d58b0",
+      "name": "Edit Planning Fields"
+    },
+    {
+      "parameters": {
+        "docId": "SDiuK-CMzS",
+        "tableId": "grid-KZvU2Kz_W0",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.coda",
+      "typeVersion": 1.1,
+      "position": [
+        3712,
+        -240
+      ],
+      "id": "3387af24-1f3e-4dfb-b407-3c64a1d5f57a",
+      "name": "Coda Planning Update",
+      "credentials": {
+        "codaApi": {
+          "id": "rmAIfKNtY8Nyolvx",
+          "name": "Nischay Coda Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the input data from the previous node (the Set node)\nconst inputData = $json;\n\n// Extract the required information\nconst meetingTitle = inputData.response.data.output.meeting_title;\nconst summary = inputData.response.data.output.meeting_summary;\nconst actionPoints = inputData.response.data.output.action_points;\n\n// Construct the formatted message\nconst formattedMessage = \n  `*${meetingTitle}*\\n` +\n  `_Summary:_\\n` +\n  `${summary}\\n\\n` +\n  `_Action Points:_\\n` +\n  `${actionPoints}`;\n\n// Return the result with the new formatted message\nreturn [{\n  json: {\n    slackMessage: formattedMessage\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3488,
+        -448
+      ],
+      "id": "a77c9b8a-9b8e-4390-9a56-8160965742ef",
+      "name": "Slack Sync Formatting"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the input data from the previous node (the Set node)\nconst inputData = $json;\n\n// Extract the required information\nconst meetingTitle = inputData.response.data.output.meeting_title;\nconst summary = inputData.response.data.output.meeting_summary;\nconst strategicOutcomes = inputData.response.data.output.strategic_outcomes;\n\n// Construct the formatted message\nconst formattedMessage = \n  `*${meetingTitle}*\\n` +\n  `_Summary:_\\n` +\n  `${summary}\\n\\n` +\n  `_Strategic Outcomes:_\\n` +\n  `${strategicOutcomes}`;\n\n// Return the result with the new formatted message\nreturn [{\n  json: {\n    slackMessage: formattedMessage\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3488,
+        -48
+      ],
+      "id": "cf343ffd-cc70-42dc-9d32-20945cd9ab50",
+      "name": "Slack Planning Formatting"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C094D10KXEV",
+          "mode": "list",
+          "cachedResultName": "testing"
+        },
+        "text": "={{ $json.slackMessage }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        3712,
+        -48
+      ],
+      "id": "caf648cd-7cf9-4efe-9c11-1edf63320f6c",
+      "name": "Slack Planning Update",
+      "webhookId": "9190d57a-95ec-4e1a-ba82-fed5fead7dcd",
+      "credentials": {
+        "slackApi": {
+          "id": "npUun0xlqA2cPf2o",
+          "name": "Nischay Slack Private"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "155be9e1-81ae-41bd-9aea-29f266929889",
+              "name": "Date",
+              "value": "={{ $('Code Transcript').item.json.date }}",
+              "type": "string"
+            },
+            {
+              "id": "e909ec06-e967-4dc2-b708-32581ee0595b",
+              "name": "Candidate Name",
+              "value": "={{ $json.response.data.output.candidate_name }}",
+              "type": "string"
+            },
+            {
+              "id": "571ab8d1-6686-478a-b450-ae6876c41569",
+              "name": "Role Applying For",
+              "value": "={{ $json.response.data.output.role_applying_for }}",
+              "type": "string"
+            },
+            {
+              "id": "b8d0097d-8ccb-4266-839b-1a5392597139",
+              "name": "Recommendation",
+              "value": "={{ $json.response.data.output.recommendation }}",
+              "type": "string"
+            },
+            {
+              "id": "2df4290b-9ba8-4f26-979a-bb7bd35cbdfe",
+              "name": "Candidate Details",
+              "value": "={{ $json.response.data.output.candidate_details }}",
+              "type": "string"
+            },
+            {
+              "id": "e9f94f16-af02-4d1c-a021-38184dad291f",
+              "name": "Personality Summary",
+              "value": "={{ $json.response.data.output.personality_summary }}",
+              "type": "string"
+            },
+            {
+              "id": "9e89c63a-9d41-4de9-8dd1-18bfe91079b1",
+              "name": "Key Strengths",
+              "value": "={{ $json.response.data.output.key_strengths }}",
+              "type": "string"
+            },
+            {
+              "id": "d02057d1-eee0-42d7-8a7e-d576221627a9",
+              "name": "Areas For Development",
+              "value": "={{ $json.response.data.output.areas_for_development }}",
+              "type": "string"
+            },
+            {
+              "id": "84c253f4-723c-43ad-91e0-244f9ec830c8",
+              "name": "Cultural Fit Assessment",
+              "value": "={{ $json.response.data.output.cultural_fit_assessment }}",
+              "type": "string"
+            },
+            {
+              "id": "36f6a5b8-41e8-4fb0-ac46-51d5eda7d23e",
+              "name": "Additional Comments",
+              "value": "={{ $json.response.data.output.additional_comments }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3488,
+        160
+      ],
+      "id": "71c5de93-bcff-4380-b15f-61de15a0d5b0",
+      "name": "Edit Interview Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the input data from the previous node\nconst inputData = $json;\n\n// Function to format the numbered lists into Slack-friendly bullet points.\n// It replaces \"1. \" with \"- \" and subsequent \"\\n2. \" with \"\\n- \".\nconst formatList = (listString) => {\n  if (!listString) return \"N/A\";\n  // Replaces all occurrences of a newline followed by a digit and a period.\n  return listString.replace(/\\n\\d+\\. /g, '\\n- ').replace(/^\\d+\\. /, '- ');\n};\n\n// Extract the required information from the input JSON\nconst candidateName = inputData.response.data.output.candidate_name;\nconst roleApplyingFor = inputData.response.data.output.role_applying_for;\nconst candidateDetails = inputData.response.data.output.candidate_details;\nconst personalitySummary = inputData.response.data.output.personality_summary;\nconst recommendation = inputData.response.data.output.recommendation;\nconst keyStrengths = formatList(inputData.response.data.output.key_strengths);\nconst areasForDevelopment = formatList(inputData.response.data.output.areas_for_development);\nconst culturalFitAssessment = inputData.response.data.output.cultural_fit_assessment;\nconst additionalComments = inputData.response.data.output.additional_comments;\n\n// A consistent separator for the message\nconst separator = \"——————————\";\n\n// Construct the full formatted message using template literals\nconst formattedMessage =\n`*Interview Evaluation Summary : ${candidateName}*\n${separator}\nCandidate Details: ${candidateDetails}\n${separator}\nRole Applying For: ${roleApplyingFor}\n${separator}\nPersonality Summary: ${personalitySummary}\n${separator}\nRecommendation: ${recommendation}\n${separator}\nKey Strengths:\n${keyStrengths}\n${separator}\nAreas for Development:\n${areasForDevelopment}\n${separator}\nCultural Fit Assessment: ${culturalFitAssessment}\n${separator}\nAdditional Comments: ${additionalComments}`;\n\n// Return the result as a new JSON property so it can be used by the next node (e.g., Slack)\nreturn [{\n  json: {\n    slackMessage: formattedMessage\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3488,
+        352
+      ],
+      "id": "6f3c9c40-6ffc-4853-b4e4-34d2cb46985a",
+      "name": "Slack Interview Formatting"
+    },
+    {
+      "parameters": {
+        "docId": "SDiuK-CMzS",
+        "tableId": "grid-2Xof1FOcHu",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.coda",
+      "typeVersion": 1.1,
+      "position": [
+        3712,
+        160
+      ],
+      "id": "73e28395-5332-4036-a249-93109db96e97",
+      "name": "Coda Interview Update",
+      "credentials": {
+        "codaApi": {
+          "id": "rmAIfKNtY8Nyolvx",
+          "name": "Nischay Coda Account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C094D10KXEV",
+          "mode": "list",
+          "cachedResultName": "testing"
+        },
+        "text": "={{ $json.slackMessage }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        3712,
+        352
+      ],
+      "id": "37222df5-9d55-4d65-97ca-74682f3448b9",
+      "name": "Slack Interview Update",
+      "webhookId": "f739fc16-2601-482f-ac9a-55d47f14d929",
+      "credentials": {
+        "slackApi": {
+          "id": "npUun0xlqA2cPf2o",
+          "name": "Nischay Slack Private"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "appToken",
+        "resource": "deal",
+        "stage": "closedwon",
+        "additionalFields": {
+          "amount": "={{ $json.response.data.output.amount }}",
+          "description": "={{ $json.response.data.output.description }}",
+          "dealName": "={{ $json.response.data.output.deal_name }}"
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.1,
+      "position": [
+        3488,
+        576
+      ],
+      "id": "ec39d0e4-4a9c-4938-b9e6-b341e57a2890",
+      "name": "Create a deal",
+      "credentials": {
+        "hubspotAppToken": {
+          "id": "kjDYMwpYlcYkOcuU",
+          "name": "Nischay"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 864,
+        "width": 1088,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -800,
+        -416
+      ],
+      "typeVersion": 1,
+      "id": "6499c977-f089-47d4-ba21-c6db5f5c28df",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 864,
+        "width": 1296,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        320,
+        -416
+      ],
+      "typeVersion": 1,
+      "id": "b58c3cb3-3020-4fa4-854f-0507957b5bf6",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 1088,
+        "width": 1536,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1664,
+        -592
+      ],
+      "typeVersion": 1,
+      "id": "e95a9070-cb3c-4583-95e0-96cb81f08cf1",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 1504,
+        "width": 1280,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3232,
+        -704
+      ],
+      "typeVersion": 1,
+      "id": "f2d1fb36-715b-426b-be2f-9b359acd4e1d",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 368,
+        "width": 528,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3392,
+        -656
+      ],
+      "typeVersion": 1,
+      "id": "78652870-dc5f-4375-8157-3ebc98558b4c",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 368,
+        "width": 528,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3392,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "944ea286-3c00-4d09-80ca-f5722301be3f",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 368,
+        "width": 528,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3392,
+        144
+      ],
+      "typeVersion": 1,
+      "id": "4bd92e30-8529-41df-84f7-058de305c42d",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 208,
+        "width": 528,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3392,
+        544
+      ],
+      "typeVersion": 1,
+      "id": "f3b8095e-ebc5-4caf-9084-8aed4e0067f5",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "content": "## Dynamic Prompt Selection\nThis section of the workflow dynamically selects the appropriate prompt based on the meeting type. \n\n- The **Switch Prompt** node acts as the router, directing the workflow to one of four nodes. This ensures that the generated insights are tailored to the specific context of each meeting, whether it's for a team sync, strategic planning, job interview, or a sales call. \n- The outputs from these nodes are then consolidated by the **Merge** node, creating a unified data stream for the next stage.",
+        "height": 240,
+        "width": 624
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1696,
+        -560
+      ],
+      "typeVersion": 1,
+      "id": "457fdfc1-a840-4833-94a7-b1be660ef4dc",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "154963cf-f4fb-4f08-ac16-31cb8ed5d60e",
+              "name": "Prompt",
+              "value": "=You are given a transcript of a team sync meeting. Your task is to extract key information and return a valid JSON object with the following fields:\n\nmeeting_title (string): A short, clear title summarizing the purpose or focus of the meeting.\n\nmeeting_summary (string): A concise summary of the key discussion points and updates from the meeting.\n\naction_points (string): A single multiline string listing all the action items. Format each action point as a numbered item. Each item should include:\n\nTask Description: A clear description of the task.\n\nAssigned To: (if mentioned, else 'Team')\n\nDue Date: (if mentioned, else 'Pending')\n\n⚠️ Only return valid JSON. Do not add any extra text, headings, markdown, or commentary. ⚠️\n\nTranscript: {{ JSON.stringify($('Code Transcript').item.json.transcript) }}\n\n",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1920,
+        -304
+      ],
+      "id": "90706a24-d3da-4346-98c5-60abaa8f5512",
+      "name": "Set Prompt Sync"
+    },
+    {
+      "parameters": {
+        "content": "## Meeting Insights Generation\nThis section is the core of the workflow, using the formatted transcript and the chosen prompt to generate a structured summary of the meeting.\n\n- The **VideoDB Meeting Insights** node utilizes the VideoDB API to process the transcript alongside the dynamically selected prompt. It generates a JSON response containing key insights, such as summaries, action items, and strategic outcomes.\n- The **Wait** and **HTTP Request** node then ensures the workflow pauses until this generation process is complete, guaranteeing that all subsequent actions have the necessary data to proceed accurately.",
+        "height": 224,
+        "width": 752
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2400,
+        224
+      ],
+      "typeVersion": 1,
+      "id": "aa8b4a80-7669-4707-a62a-1e9455c2c160",
+      "name": "Sticky Note17"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.data.output_url }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "videoDBApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2816,
+        -96
+      ],
+      "id": "893155a4-2651-4355-ac72-1d51093f1252",
+      "name": "HTTP Request Insights",
+      "credentials": {
+        "videoDBApi": {
+          "id": "d2soIQH4rgVQUdD2",
+          "name": "Nischay Dev"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Sync Meeting Automation\nThis branch of the workflow automates the post-meeting tasks for Sync meetings. \n\n- The **Edit Sync Fields** node processes the insights into a structured format with fields like `Date`, `Meeting Title`, `Summary`, and `Action Points`. The data is then updated in a Coda document via the **Coda Sync Update** node, ensuring a persistent record. \n\n- Concurrently, the **Slack Sync Formatting** node prepares a concise, readable message, which is then posted to the designated Slack channel by the **Slack Sync Update** node, keeping the team updated with key takeaways and action items.",
+        "height": 368,
+        "width": 528,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3920,
+        -656
+      ],
+      "typeVersion": 1,
+      "id": "a0d62d23-3637-4d35-89aa-02b20397e056",
+      "name": "Sticky Note18"
+    },
+    {
+      "parameters": {
+        "content": "## Planning Meeting Automation\nThis branch is dedicated to streamlining the output from Planning meetings. \n\n- The **Edit Planning Fields** node extracts and formats key data points, including `Date`, `Meeting Title`, `Summary`, and `Strategic Outcomes`. This structured data is then used by the **Coda Planning Update** node to automatically update a Coda document, serving as a centralized source of truth for planning outcomes. \n\n- The **Slack Planning Formatting** node then crafts a well-structured message, which is broadcast to a Slack channel via the **Slack Planning Update** node, ensuring all stakeholders are aligned on strategic goals and decisions.",
+        "height": 368,
+        "width": 528,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3920,
+        -256
+      ],
+      "typeVersion": 1,
+      "id": "cfd30101-1254-4889-9a6b-4f034805a93e",
+      "name": "Sticky Note19"
+    },
+    {
+      "parameters": {
+        "content": "## Interview Automation\nThis branch automates the follow-up process for Interview meetings. \n\n- The **Edit Interview Fields** node organizes the generated insights into key fields such as `Date`, `Candidate Name`, `Role Applying For`, and a final `Recommendation`. This information is then pushed to a Coda document via the **Coda Interview Update** node, providing a single source for all interview notes. \n\n- Simultaneously, the **Slack Interview Formatting** node prepares a detailed message that is posted to a Slack channel using the **Slack Interview Update** node, providing timely updates to the hiring team on candidate progress and feedback.",
+        "height": 368,
+        "width": 528,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3920,
+        144
+      ],
+      "typeVersion": 1,
+      "id": "99963e66-c6af-4454-b577-ab6b34b7074b",
+      "name": "Sticky Note20"
+    },
+    {
+      "parameters": {
+        "content": "## Sales Deal Creation\nThis branch automates the post-meeting workflow for sales calls by directly integrating with Hubspot CRM. \n\n- The `Create a deal` node uses the HubSpot API to automatically generate a new deal from the meeting data. This ensures that every potential opportunity is captured and tracked in the sales pipeline, eliminating manual data entry and streamlining the sales process for improved efficiency and follow-up.",
+        "height": 208,
+        "width": 528,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3920,
+        544
+      ],
+      "typeVersion": 1,
+      "id": "d1f3b963-f707-4754-bc97-759a25ae211d",
+      "name": "Sticky Note21"
+    },
+    {
+      "parameters": {
+        "content": "## Fetching and Formatting the Transcript\nThis section of the workflow retrieves the raw transcript data and processes it into a clean, structured, and human-readable format.\n\n- The **VideoDB Transcript** node fetches the complete, raw transcript, which includes word-by-word data and timestamps.\n- The **Code Transcript** node then runs a custom JavaScript function to transform this raw data. It combines individual words into full sentences, assigns speaker names to each segment, and organizes the output into a clean, easy-to-read transcript.",
+        "height": 336,
+        "width": 416
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1168,
+        -384
+      ],
+      "typeVersion": 1,
+      "id": "07b34cf0-ad4d-468d-a764-3939de9951c3",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "VideoDB Spoken Indexing": {
+      "main": [
+        [
+          {
+            "node": "Wait For Indexing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VideoDB Transcript": {
+      "main": [
+        [
+          {
+            "node": "Code Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Form": {
+      "main": [
+        [
+          {
+            "node": "VideoDB Record Meeting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VideoDB Record Meeting": {
+      "main": [
+        [
+          {
+            "node": "Wait For Meeting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VideoDB Get Meeting": {
+      "main": [
+        [
+          {
+            "node": "If Meeting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait For Meeting": {
+      "main": [
+        [
+          {
+            "node": "VideoDB Get Meeting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Meeting": {
+      "main": [
+        [
+          {
+            "node": "VideoDB Spoken Indexing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait For Meeting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait For Indexing": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request Indexing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request Indexing": {
+      "main": [
+        [
+          {
+            "node": "If Indexing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Indexing": {
+      "main": [
+        [
+          {
+            "node": "VideoDB Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait For Indexing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code Transcript": {
+      "main": [
+        [
+          {
+            "node": "Switch Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Prompt": {
+      "main": [
+        [
+          {
+            "node": "Set Prompt Sync",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Prompt Planning",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Prompt Interview",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set Prompt Sales",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Prompt Planning": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Set Prompt Interview": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Set Prompt Sales": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "VideoDB Meeting Insights",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Interview1": {
+      "main": [
+        [
+          {
+            "node": "Switch Branch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait For Insights",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "VideoDB Meeting Insights": {
+      "main": [
+        [
+          {
+            "node": "Wait For Insights",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait For Insights": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request Insights",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Branch": {
+      "main": [
+        [
+          {
+            "node": "Edit Sync Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Slack Sync Formatting",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Planning Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Slack Planning Formatting",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Interview Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Slack Interview Formatting",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create a deal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Sync Fields": {
+      "main": [
+        [
+          {
+            "node": "Coda Sync Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Planning Fields": {
+      "main": [
+        [
+          {
+            "node": "Coda Planning Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack Sync Formatting": {
+      "main": [
+        [
+          {
+            "node": "Slack Sync Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack Planning Formatting": {
+      "main": [
+        [
+          {
+            "node": "Slack Planning Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Interview Fields": {
+      "main": [
+        [
+          {
+            "node": "Coda Interview Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack Interview Formatting": {
+      "main": [
+        [
+          {
+            "node": "Slack Interview Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Prompt Sync": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request Insights": {
+      "main": [
+        [
+          {
+            "node": "If Interview1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "26ae0f44-e531-404c-a3a1-5953f67fdb94",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cadf42e8f7c4b9bb1732d8ef114ee6eb79df24052148682da6f90820da5050d2"
+  },
+  "id": "2JWaS1pdgyu59W21",
+  "tags": []
+}

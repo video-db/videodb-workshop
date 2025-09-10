@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="assets/videodb_banner_gen.png" alt="VideoDB Banner" style="width:100%; max-width: 1000px; aspect-ratio: 9/2; object-fit: cover; border-radius: 8px;">
+</div>
+
 # 🎥 VideoDB Workshop: SF Announcement Showcase
 
 Welcome to the **VideoDB San Francisco Workshop** repository, created for AI engineers, startups, and creative professionals. This is your hands-on guide to building real-time, multimodal video applications and interactive media.
@@ -13,15 +17,16 @@ Expect production-grade demos, takeaways you can reuse immediately, and a framew
 
 ---
 
-### 🚀 Get Started in Minutes
+### 🚀 Get Started Instantly
 
-This repository contains everything you need to begin your journey with VideoDB. To run the notebooks and demos, you'll need a free account and an API key.
+Experience VideoDB through our interactive notebooks and live demos - no setup required! Simply click any of the demo links below to start exploring. For full functionality, you'll just need a free API key.
 
-1.  **Get Your Free API Key**: [Sign up here](https://console.videodb.io) and get started with $20 in free credits.
-2.  **Clone this Repository**: `git clone https://github.com/video-db/videodb-workshop.git`
-3.  **Install the SDK**: `pip install videodb`
+**Get Your Free API Key**: [Sign up here](https://console.videodb.io) and get started with $20 in free credits.
 
 ---
+<div align="center">
+  <img src="assets/banner_quickstart.png" alt="Quickstart Banner" style="width:100%; max-width: 900px; aspect-ratio: 3/0.9; object-fit: cover; border-radius: 8px;">
+</div>
 
 ### 📚 Quickstart Notebooks
 
@@ -29,13 +34,16 @@ These notebooks are your entry point into the world of VideoDB. For a comprehens
 
 * **VideoDB Quickstart**: A foundational notebook to get you familiar with uploading, indexing, and searching your first video. This is the best place to begin.
 
-    [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/video-db/videodb-cookbook/blob/main/quickstart/VideoDB%20Quickstart.ipynb)
+    [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/video-db/videodb-workshop/blob/main/quickstart/VideoDB_Quickstart.ipynb)
 
 * **Retrieval Pipeline (Scene-Level Metadata Indexing)**: Learn how VideoDB automatically indexes video content at a granular, scene-by-scene level, enabling powerful and precise semantic retrieval.
 
-    [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/video-db/videodb-cookbook/blob/main/quickstart/scene_level_metadata_indexing.ipynb)
+    [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/video-db/videodb-workshop/blob/main/quickstart/scene_level_metadata_indexing.ipynb)
 
 ---
+<div align="center">
+  <img src="assets/banner_rtstream.png" alt="RTStream Banner" style="width:100%; max-width: 900px; aspect-ratio: 3/0.9; object-fit: cover; border-radius: 8px;">
+</div>
 
 ### 🌐 Real-Time Streams (RTStream)
 
@@ -47,17 +55,24 @@ These notebooks showcase a few of the powerful applications you can build with V
 
 * **Real-Time Analysis: Intrusion Detection**: See how to build a live video monitoring system that detects intrusions and triggers alerts in real time, all powered by a simple text prompt.
 
-    [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/video-db/videodb-cookbook/blob/main/real_time_streaming/Intrusion_Detection.ipynb)
+    [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/video-db/videodb-workshop/blob/main/rtstream/Intrusion_Detection.ipynb)
+
+* **Smart Road Safety Monitoring**: Build an AI-powered road monitoring system that detects accidents at toll plazas and traffic congestion on highways, automatically alerting emergency services and traffic authorities for faster response times.
+
+    [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/video-db/videodb-workshop/blob/main/rtstream/Road_Monitoring.ipynb)
 
 #### **Upcoming RTStream Features (Coming Soon)**
 
 * **Multi-Camera Setup**: Seamlessly manage and analyze multiple live video feeds simultaneously, perfect for large-scale security or event monitoring.
 
 ---
+<div align="center">
+  <img src="assets/banner_deepsearch.png" alt="DeepSearch Agent Banner" style="width:100%; max-width: 900px; aspect-ratio: 3/0.9; object-fit: cover; border-radius: 8px;">
+</div>
 
 ### 🤖 Live Demos: Chat Agents
 
-These interactive web applications demonstrate the power of our agent framework, allowing you to converse with and command video using natural language.
+The interactive web application demonstrates the power of our agent framework, allowing you to converse with and command video using natural language.
 
 * **VideoDB Director**: An AI-driven video processing and analysis platform that leverages a suite of specialized AI agents and advanced language models to manage a wide range of video-related tasks seamlessly through a chat-based workflow.
 
@@ -65,17 +80,23 @@ These interactive web applications demonstrate the power of our agent framework,
 
 * **DeepSearch (Coming Soon)**: The **DeepSearch Agent**, an intelligent search agent, is designed to deliver highly accurate results by exploring multiple trajectories, rephrasing queries, validating, and reranking results across various indexes. Paired with our improved frontend UI, creating and clipping your videos will be easier than ever. Instantly find similar clips and transform them into ready-to-post vertical videos using our integrated Reel Maker Agent. Stay tuned for smarter, faster, and effortless video workflows.
 
-    *Join our waitlist for early access: [Waitlist Form Link](https://placeholder.com/waitlist-deepsearch)*
+    *Get beta access: [Beta Access Form](https://forms.gle/iYpjipzEvBdcneFL9)*
 
 ---
+<div align="center">
+  <img src="assets/banner_realtime_meeting_analysis.png" alt="Real-Time Meeting Analysis Banner" style="width:100%; max-width: 900px; aspect-ratio: 3/0.9; object-fit: cover; border-radius: 8px;">
+</div>
 
 ### 🧠 Real-Time Meeting Analysis (Coming Soon)
 
 Experience the future of meetings with our AI bot that can join your conferences and provide real-time insights. Interact with the bot to ask questions, summarize key points, and get answers from the meeting content as it happens.
 
-*Join our waitlist for early access: [Waitlist Form Link](https://placeholder.com/waitlist-meeting-analysis)*
+*Get beta access: [Beta Access Form](https://forms.gle/iYpjipzEvBdcneFL9)*
 
 ---
+<div align="center">
+  <img src="assets/banner_timelinev2.png" alt="Timeline V2 Banner" style="width:100%; max-width: 900px; aspect-ratio: 3/0.9; object-fit: cover; border-radius: 8px;">
+</div>
 
 ### ⏱️ Timeline V2: The Semantic Timeline Agent (Coming Soon)
 
@@ -88,46 +109,113 @@ Semantic Timeline offers two powerful ways to work:
 * **Programmatic**: Use our developer-friendly SDK to programmatically navigate and edit video content, creating a detailed, searchable timeline of key events.
 * **Prompt-Based**: Interactively index and explore your video library and perform complex edits using natural language conversations with The Director. For example, simply describe your edits naturally, such as "Add 'Smoking Kills' in red text whenever a smoking scene appears."
 
-*Join our waitlist for early access: [Waitlist Form Link](https://placeholder.com/waitlist-timeline-v2)*
+*Get beta access: [Beta Access Form](https://forms.gle/iYpjipzEvBdcneFL9)*
 
 ---
+<div align="center">
+  <img src="assets/banner_videomonkey.png" alt="Video Monkey Banner" style="width:100%; max-width: 900px; aspect-ratio: 3/0.9; object-fit: cover; border-radius: 8px;">
+</div>
 
 ### 🐒 Video Monkey Agent (Coming Soon)
 
 Introducing **Video Monkey**, your AI-powered editing agent integrated with Google's Nano Banana. Effortlessly edit videos using natural language prompts or visual references—just describe your idea or provide an image, and Video Monkey brings it to life. With Nano Banana, unlock limitless possibilities for creative, precise, and intuitive video editing.
 
-*Join our waitlist for early access: [Waitlist Form Link](https://placeholder.com/waitlist-video-monkey)*
+*Get beta access: [Beta Access Form](https://forms.gle/iYpjipzEvBdcneFL9)*
 
 ---
+<div align="center">
+  <img src="assets/banner_workflows.png" alt="Workflows Banner" style="width:100%; max-width: 900px; aspect-ratio: 3/0.9; object-fit: cover; border-radius: 8px;">
+</div>
 
-## ⚙️ Integrations & Workflows
+### ⚙️ Integrations & Workflows
 
-VideoDB is built to integrate seamlessly with the tools you already use.
+#### **VideoDB: Simplifying AI Video Automations**
 
-### **Zapier**
+Automations for video tasks have always been a challenge. Traditional setups in platforms like **Zapier** and **n8n** require connecting and managing a fragmented ecosystem of services, one for media upload, another for transcription, and separate ones for voice generation, video processing, and content storage. This complexity creates integration headaches and slows down innovation.
 
-VideoDB is coming live on Zapier, allowing you to connect your video workflows with thousands of other apps.
+VideoDB's new integration changes this. You can build powerful, AI-driven video workflows with just **one connection**, simplifying everything from video indexing and content generation to storage and retrieval. This integrated approach drastically reduces complexity, enabling you to focus on creating and automating rather than wrestling with multiple APIs.
 
-**Demo Workflow**: We’ll be showing an automation that generates audio from a script, creates a video based on that audio, and then posts it as a YouTube Short.
+#### **Zapier**
 
+VideoDB is now on Zapier, allowing you to seamlessly connect your video content with thousands of other apps.
 
+This integration lets you automate everything from video management to advanced AI analysis, without having to write any code. This simplifies your workflow and helps you focus on what matters most.
 
-[**Watch the Demo on YouTube**](https://www.youtube.com/@AthenaeumWorld)
+**Automated Content Creation Workflow**: This automation demonstrates how VideoDB transforms simple RSS feeds into engaging YouTube Shorts—completely hands-free. It's the perfect solution for anyone looking to maintain a consistent video presence without manual effort. The workflow automatically detects new articles from an RSS feed, uses VideoDB's LLM to generate a script, and then handles the entire video production pipeline—from creating voiceovers and video clips to stitching them together and auto-publishing the finished Short directly to YouTube.
+
+```mermaid
+graph TD
+    A[📰 RSS Feed Step<br/>New Article / News] --> B[🧠 VideoDB Step<br/>Generate Script with LLM]
+    B --> C[🎬 VideoDB Step<br/>Create & Stitch Video]
+    C --> D[▶️ YouTube Step<br/>Upload as Short]
+
+    subgraph C[🤖 Content Generation]
+        C1[Generate Voiceover] --> C2[Generate Video Clips]
+        C2 --> C3[Stitch Everything Together]
+    end
+
+    linkStyle 3,4 stroke:black;
+
+    style A fill:#D0E8FF, stroke:#1A237E, stroke-width:2px, color:#000
+    style B fill:#FFFDE7, stroke:#FF8F00, stroke-width:2px, color:#000
+    style C fill:#E8F5E9, stroke:#2E7D32, stroke-width:2px, color:#000
+    style C1 fill:#B3E5FC, stroke:#0288D1, stroke-width:2px, color:#000
+    style C2 fill:#C8E6C9, stroke:#388E3C, stroke-width:2px, color:#000
+    style C3 fill:#FFCCBC, stroke:#E64A19, stroke-width:2px, color:#000
+    style D fill:#FFCDD2, stroke:#B71C1C, stroke-width:2px, color:#000
+```
+**See It In Action**: The YouTube channel below showcases real videos created using this exact Zapier automation workflow.
+
+[**Explore the Example Channel on YouTube**](https://www.youtube.com/@AthenaeumWorld)
 
 ---
-### **N8N**
+#### **N8N**
 
-VideoDB is also coming to n8n, a powerful open-source workflow automation tool. Our integration will simplify complex video pipelines.
+VideoDB integrates seamlessly with n8n, a powerful open-source workflow automation platform, enabling you to build sophisticated, event-driven video processing pipelines.
 
-**Meeting Recording Workflow**: This workflow automates the process of recording, transcribing, indexing, and generating insights for your meetings. It integrates with Coda, Slack, and HubSpot to automatically sync, share, and track meeting outcomes.
+**Intelligent Meeting Automation Workflow**: Our comprehensive workflow demonstrates how VideoDB transforms meeting recordings into actionable business intelligence. This end-to-end automation handles everything from recording to distribution across your business tools.
 
+```mermaid
+graph TD
+    A[📝 Meeting Form<br/>URL + Type Selection] --> B[🎥 VideoDB Recording<br/>Start Bot + Record]
+    B --> C[📊 Video Processing<br/>Transcription + Indexing]
+    C --> D[🧠 AI Analysis<br/>Meeting Insights Generation]
+    D --> E{📋 Meeting Type<br/>Branch Logic}
+    
+    E -->|Sync| F1[Coda & Slack Update<br/>Meeting Summary]
+    E -->|Planning| F2[Coda & Slack Update<br/>Strategic Outcomes]
+    E -->|Interview| F3[Coda & Slack Update<br/>Candidate Evaluation]
+    E -->|Sales| F4[💼 HubSpot CRM<br/>Deal Creation]
+    
+    style A fill:#D0E8FF, stroke:#1A237E, stroke-width:2px, color:#000
+    style B fill:#E1BEE7, stroke:#4A148C, stroke-width:2px, color:#000
+    style C fill:#E1BEE7, stroke:#4A148C, stroke-width:2px, color:#000
+    style D fill:#FFFDE7, stroke:#FF8F00, stroke-width:2px, color:#000
+    style E fill:#DCEDC8, stroke:#33691E, stroke-width:2px, color:#000
+    style F1 fill:#E8F5E9, stroke:#2E7D32, stroke-width:2px, color:#000
+    style F2 fill:#E8F5E9, stroke:#2E7D32, stroke-width:2px, color:#000
+    style F3 fill:#E8F5E9, stroke:#2E7D32, stroke-width:2px, color:#000
+    style F4 fill:#FFCDD2, stroke:#B71C1C, stroke-width:2px, color:#000
+```
 
+**Key Features:**
+- **Smart Meeting Recording**: Automatically joins and records meetings using VideoDB's meeting bot
+- **Advanced Transcript Processing**: Intelligent speaker identification and conversation segmentation
+- **Context-Aware AI Analysis**: Generates different insights based on meeting type (sync updates, strategic planning, candidate interviews, or sales calls)
+- **Multi-Platform Distribution**: Automatically syncs results to Coda databases, sends formatted Slack notifications, and creates HubSpot deals for sales meetings
+- **Seamless Integration**: Works with your existing business tools without disrupting current workflows
 
-[**View n8n Workflow**](https://n8n.videodb.io/workflow/Er2tz2Jfw6QAVtcG)
+**Getting Started:**
+1. **Install the VideoDB Node**: Once our n8n integration launches, install the custom VideoDB node in your n8n instance
+2. **Import the Workflow**: Download our [Meeting Recorder Workflow](n8n_workflow/Meeting_Recorder_Workflow.json) and import it into your n8n workspace
+3. **Configure Credentials**: Set up your VideoDB API key along with credentials for Coda, Slack, and HubSpot integrations
+4. **Customize & Deploy**: Adapt the workflow prompts and routing logic to match your specific business processes
+
+This workflow showcases how VideoDB can be the central intelligence layer in your business automation stack, turning every meeting into structured, actionable data.
 
 
 ---
 
 ### ✨ What's Next?
 
-Our mission is to make video as programmable as text. Join our community on [Discord](https://discord.gg/videodb) to share your ideas, get help, and connect with other builders.
+Our mission is to make video as programmable as text. Join our community on [Discord](https://discord.gg/6evw64BP) to share your ideas, get help, and connect with other builders.
