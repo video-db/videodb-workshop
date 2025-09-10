@@ -84,7 +84,7 @@ The interactive web application demonstrates the power of our agent framework, a
 
 * **VideoDB Director**: An AI-driven video processing and analysis platform that leverages a suite of specialized AI agents and advanced language models to manage a wide range of video-related tasks seamlessly through a chat-based workflow.
 
-    [**Launch Director**](https://chat.dev.videodb.io)
+    [**Launch Director**](https://chat.videodb.io)
 
 * **DeepSearch (Coming Soon)**: The **DeepSearch Agent**, an intelligent search agent, is designed to deliver highly accurate results by exploring multiple trajectories, rephrasing queries, validating, and reranking results across various indexes. Paired with our improved frontend UI, creating and clipping your videos will be easier than ever. Instantly find similar clips and transform them into ready-to-post vertical videos using our integrated Reel Maker Agent. Stay tuned for smarter, faster, and effortless video workflows.
 
