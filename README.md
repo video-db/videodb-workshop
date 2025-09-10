@@ -65,13 +65,13 @@ These notebooks showcase a few of the powerful applications you can build with V
 
 VideoDB's multi-camera support unlocks advanced video intelligence by synchronizing and analyzing multiple feeds in real time. This enables richer context, multi-angle event detection, and comprehensive scene understanding- crucial for applications in public safety, sports analytics, and smart environments. With seamless multi-cam integration, you can build solutions that go beyond single-view limitations, delivering actionable insights and next-level automation.
 
-* **Multi-Camera Public Surveillance**: Experience advanced urban monitoring with a 7-camera surveillance network using the WILDTRACK dataset. Learn how to deploy AI-powered analysis across multiple synchronized video feeds to detect incidents in real-time and provide multi-angle evidence for public safety applications.
-
-    [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/video-db/videodb-workshop/blob/main/rtstream/Multicam_Public_Surveillance.ipynb)
-
 * **Multi-Camera Basketball Analysis**: Transform sports analytics with intelligent multi-camera monitoring of basketball games. This demo showcases how to analyze player movements, detect key game events (baskets, fouls, timeouts), and generate synchronized multi-angle replays for enhanced coaching and analysis.
 
     [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/video-db/videodb-workshop/blob/main/rtstream/Multicam_Basketball_Analysis.ipynb)
+
+* **Multi-Camera Public Surveillance**: Experience advanced urban monitoring with a 7-camera surveillance network using the WILDTRACK dataset. Learn how to deploy AI-powered analysis across multiple synchronized video feeds to detect incidents in real-time and provide multi-angle evidence for public safety applications.
+
+    [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/video-db/videodb-workshop/blob/main/rtstream/Multicam_Public_Surveillance.ipynb)
 
 ---
 <div align="center">
