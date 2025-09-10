@@ -135,6 +135,7 @@ Automations for video tasks have always been a challenge. Traditional setups in 
 
 VideoDB's new integration changes this. You can build powerful, AI-driven video workflows with just **one connection**, simplifying everything from video indexing and content generation to storage and retrieval. This integrated approach drastically reduces complexity, enabling you to focus on creating and automating rather than wrestling with multiple APIs.
 
+---
 #### **Zapier**
 
 VideoDB is now on Zapier, allowing you to seamlessly connect your video content with thousands of other apps.
@@ -173,7 +174,9 @@ graph TD
 
 VideoDB integrates seamlessly with n8n, a powerful open-source workflow automation platform, enabling you to build sophisticated, event-driven video processing pipelines.
 
-**Intelligent Meeting Automation Workflow**: Our comprehensive workflow demonstrates how VideoDB transforms meeting recordings into actionable business intelligence. This end-to-end automation handles everything from recording to distribution across your business tools.
+**Intelligent Meeting Automation Workflow**:This comprehensive workflow leverages VideoDB to transform meeting recordings into actionable business intelligence, handling everything from recording to distribution across your business tools. It works by using an intelligent bot to join and record meetings, then processes the audio to identify speakers and segment the conversation.
+
+Based on the meeting type (e.g., sales calls, interviews, or strategic planning), VideoDB's context-aware AI generates different insights. The workflow then automatically distributes these results, syncing data to Coda, sending formatted notifications to Slack, and even creating deals in HubSpot for sales meetings.
 
 ```mermaid
 graph TD
@@ -198,20 +201,13 @@ graph TD
     style F4 fill:#FFCDD2, stroke:#B71C1C, stroke-width:2px, color:#000
 ```
 
-**Key Features:**
-- **Smart Meeting Recording**: Automatically joins and records meetings using VideoDB's meeting bot
-- **Advanced Transcript Processing**: Intelligent speaker identification and conversation segmentation
-- **Context-Aware AI Analysis**: Generates different insights based on meeting type (sync updates, strategic planning, candidate interviews, or sales calls)
-- **Multi-Platform Distribution**: Automatically syncs results to Coda databases, sends formatted Slack notifications, and creates HubSpot deals for sales meetings
-- **Seamless Integration**: Works with your existing business tools without disrupting current workflows
-
 **Getting Started:**
 1. **Install the VideoDB Node**: Once our n8n integration launches, install the custom VideoDB node in your n8n instance
 2. **Import the Workflow**: Download our [Meeting Recorder Workflow](n8n_workflow/Meeting_Recorder_Workflow.json) and import it into your n8n workspace
 3. **Configure Credentials**: Set up your VideoDB API key along with credentials for Coda, Slack, and HubSpot integrations
 4. **Customize & Deploy**: Adapt the workflow prompts and routing logic to match your specific business processes
 
-This workflow showcases how VideoDB can be the central intelligence layer in your business automation stack, turning every meeting into structured, actionable data.
+>These workflows showcase how VideoDB can be the central intelligence layer in your business automation stack, turning every meeting into structured, actionable data.
 
 
 ---
