@@ -38,7 +38,7 @@ These notebooks are your entry point into the world of VideoDB. For a comprehens
 
 * **Retrieval Pipeline (Scene-Level Metadata Indexing)**: Learn how VideoDB automatically indexes video content at a granular, scene-by-scene level, enabling powerful and precise semantic retrieval.
 
-    [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/video-db/videodb-workshop/blob/main/quickstart/scene_level_metadata_indexing.ipynb)
+    [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/video-db/videodb-workshop/blob/main/quickstart/Scene_Level_Metadata_Indexing.ipynb)
 
 ---
 <div align="center">
@@ -63,7 +63,7 @@ These notebooks showcase a few of the powerful applications you can build with V
 
 #### **Multi-Camera Setup**
 
-VideoDB's multi-camera support unlocks advanced video intelligence by synchronizing and analyzing multiple feeds in real time. This enables richer context, multi-angle event detection, and comprehensive scene understanding—crucial for applications in public safety, sports analytics, and smart environments. With seamless multi-cam integration, you can build solutions that go beyond single-view limitations, delivering actionable insights and next-level automation.
+VideoDB's multi-camera support unlocks advanced video intelligence by synchronizing and analyzing multiple feeds in real time. This enables richer context, multi-angle event detection, and comprehensive scene understanding- crucial for applications in public safety, sports analytics, and smart environments. With seamless multi-cam integration, you can build solutions that go beyond single-view limitations, delivering actionable insights and next-level automation.
 
 * **Multi-Camera Public Surveillance**: Experience advanced urban monitoring with a 7-camera surveillance network using the WILDTRACK dataset. Learn how to deploy AI-powered analysis across multiple synchronized video feeds to detect incidents in real-time and provide multi-angle evidence for public safety applications.
 
@@ -108,7 +108,7 @@ Experience the future of meetings with our AI bot that can join your conferences
 
 ### ⏱️ Timeline V2: The Semantic Timeline Agent (Coming Soon)
 
-Introducing **Semantic Timeline**, a new intelligent editing agent within Director designed to make powerful video editing simple and fast. It helps you easily craft videos using various assets—videos, images, audio, text, and captions—each fully customizable with cropping, trimming, volume control, and rich styling.
+Introducing **Semantic Timeline**, a new intelligent editing agent within Director designed to make powerful video editing simple and fast. It helps you easily craft videos using various assets- videos, images, audio, text, and captions- each fully customizable with cropping, trimming, volume control, and rich styling.
 
 You can quickly organize your media into structured **Clips** and **Tracks**, add smooth transitions and effects, and build comprehensive timelines effortlessly.
 
@@ -126,7 +126,7 @@ Semantic Timeline offers two powerful ways to work:
 
 ### 🐒 Video Monkey Agent (Coming Soon)
 
-Introducing **Video Monkey**, your AI-powered editing agent integrated with Google's Nano Banana. Effortlessly edit videos using natural language prompts or visual references—just describe your idea or provide an image, and Video Monkey brings it to life. With Nano Banana, unlock limitless possibilities for creative, precise, and intuitive video editing.
+Introducing **Video Monkey**, your AI-powered editing agent integrated with Google's Nano Banana. Effortlessly edit videos using natural language prompts or visual references- just describe your idea or provide an image, and Video Monkey brings it to life. With Nano Banana, unlock limitless possibilities for creative, precise, and intuitive video editing.
 
 *Get beta access: [Beta Access Form](https://forms.gle/iYpjipzEvBdcneFL9)*
 
@@ -150,7 +150,7 @@ VideoDB is now on Zapier, allowing you to seamlessly connect your video content 
 
 This integration lets you automate everything from video management to advanced AI analysis, without having to write any code. This simplifies your workflow and helps you focus on what matters most.
 
-**Automated Content Creation Workflow**: This automation demonstrates how VideoDB transforms simple RSS feeds into engaging YouTube Shorts—completely hands-free. It's the perfect solution for anyone looking to maintain a consistent video presence without manual effort. The workflow automatically detects new articles from an RSS feed, uses VideoDB's LLM to generate a script, and then handles the entire video production pipeline—from creating voiceovers and video clips to stitching them together and auto-publishing the finished Short directly to YouTube.
+**Automated Content Creation Workflow**: This automation demonstrates how VideoDB transforms simple RSS feeds into engaging YouTube Shorts- completely hands-free. It's the perfect solution for anyone looking to maintain a consistent video presence without manual effort. The workflow automatically detects new articles from an RSS feed, uses VideoDB's LLM to generate a script, and then handles the entire video production pipeline- from creating voiceovers and video clips to stitching them together and auto-publishing the finished Short directly to YouTube.
 
 ```mermaid
 graph TD
